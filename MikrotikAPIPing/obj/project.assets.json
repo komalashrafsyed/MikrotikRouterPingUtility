@@ -9731,11 +9731,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Air Jaldi\\.NETCore3.0MikrotikAPI\\MikrotikAPIPing\\MikrotikAPIPing.csproj",
+      "projectUniqueName": "C:\\Air Jaldi\\.NETCore3.0MikrotikAPI\\MikrotikRouterPingUtiltiy\\MikrotikAPIPing\\MikrotikAPIPing.csproj",
       "projectName": "MikrotikAPIPingUtility",
-      "projectPath": "C:\\Air Jaldi\\.NETCore3.0MikrotikAPI\\MikrotikAPIPing\\MikrotikAPIPing.csproj",
+      "projectPath": "C:\\Air Jaldi\\.NETCore3.0MikrotikAPI\\MikrotikRouterPingUtiltiy\\MikrotikAPIPing\\MikrotikAPIPing.csproj",
       "packagesPath": "C:\\Users\\v-kosyed\\.nuget\\packages\\",
-      "outputPath": "C:\\Air Jaldi\\.NETCore3.0MikrotikAPI\\MikrotikAPIPing\\obj\\",
+      "outputPath": "C:\\Air Jaldi\\.NETCore3.0MikrotikAPI\\MikrotikRouterPingUtiltiy\\MikrotikAPIPing\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
