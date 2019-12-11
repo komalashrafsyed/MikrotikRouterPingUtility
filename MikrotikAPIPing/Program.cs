@@ -61,9 +61,9 @@ namespace MikrotikAPIPing
             .AddJsonFile("appsettings.json", true, true)
             .Build();
 
-            string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
-            string eventHubName = config["EventHub"];
-            string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
+           string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
+           string eventHubName = config["EventHub"];
+           string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
 
 
             string fileinblob = config["FILELOCATION_BLOB"];
@@ -132,7 +132,7 @@ namespace MikrotikAPIPing
                 int sleepIntMs = numvalSleepInt * 60000;
 
                 Thread.Sleep(sleepIntMs);
-                Console.Write(" \n Sleeping for" + numvalSleepInt + "minutes \n");
+                Console.Write(" \n Sleeping for " + numvalSleepInt + "minutes \n");
             }
 
             Console.WriteLine("\n Press ENTER to exit.");
@@ -274,7 +274,7 @@ namespace MikrotikAPIPing
 
             int sleepIntMs = numvalSleepInt;
 
-            Console.Write(" \n Sleeping for" + numvalSleepInt + "millseconds \n");
+            Console.Write(" \n Sleeping for" + numvalSleepInt + "milliseconds \n");
 
 
 
@@ -313,13 +313,21 @@ namespace MikrotikAPIPing
                               {
                                   Console.WriteLine("*****");
                                   responseList.Add(ping);
+                                  //Adding the Ping Reply to the event message list
+                                  _eventMessageModels.Add(new EventMessageModel(ping, enumeratedsourceips[ipid], enumerateddestips[ipid], ipid));
                                   Console.WriteLine("average return time: " + ping.AvgRtt);
                                   Console.WriteLine("time to life:" + ping.TimeToLife);
                                   Console.WriteLine("packet loss: " + ping.PacketLoss);
                                   Console.WriteLine("min round trip time: " + ping.MinRtt);
                                   Console.WriteLine("max round trip time: " + ping.MaxRtt);
+                                  Console.WriteLine("sent: " + ping.Sent);
+                                  Console.WriteLine("recieved: " + ping.Received);
+                                  Console.WriteLine("time: " + ping.Time);
+                                  Console.WriteLine("host: " + ping.Host);
+                                  Console.WriteLine("SequenceNo: " + ping.SequenceNo);
 
                                   Console.WriteLine("=====");
+
                               }
                               catch (Exception m)
                               {
@@ -328,10 +336,11 @@ namespace MikrotikAPIPing
                           }, //read callback
 
                           exception => responseException = exception, //exception callback
-                            connection.CreateParameter("address", enumerateddestips[ipid]), connection.CreateParameter("count", 1.ToString()), connection.CreateParameter("size", "64"));
+                          connection.CreateParameter("address", enumerateddestips[ipid]), connection.CreateParameter("count", 1.ToString()), connection.CreateParameter("size", "64"));
 
           
                     Thread.Sleep(sleepIntMs);
+                        
                         ipid++;
                     }
                     catch (Exception e)
@@ -346,21 +355,6 @@ namespace MikrotikAPIPing
             }
         }
 
-        public class PingRecord
-        {
-          
-            public string IPOne { get; set; }
-            public string IPTwo { get; set; }
-            public string userName { get; set; }
-            public string password { get; set; }
-
-           
-        }
-
-
-
-
-
         public class UserToken
         {
             public AutoResetEvent waiter { get; set; }
@@ -371,61 +365,7 @@ namespace MikrotikAPIPing
         }
 
 
-        private static void PingCompletedCallback(object sender, PingCompletedEventArgs e)
-        {
-            
-            // If the operation was canceled, display a message to the user.
-            if (e.Cancelled)
-            {
-                Console.WriteLine("Ping canceled.");
-
-                // Let the main thread resume. 
-                // UserToken is the AutoResetEvent object that the main thread 
-                // is waiting for.
-                ((AutoResetEvent)((UserToken)e.UserState).waiter).Set();
-                //((AutoResetEvent)e.UserState).Set();
-               
-            }
-
-            // If an error occurred, display the exception to the user.
-            if (e.Error != null)
-            {
-                Console.WriteLine("Ping failed:");
-                Console.WriteLine(e.Error.ToString());
-
-                // Let the main thread resume. 
-               // ((AutoResetEvent)e.UserState).Set();
-                ((AutoResetEvent)((UserToken)e.UserState).waiter).Set();
-
-            }
-
-            string result = "test";
-            PingReply reply = e.Reply;
-            string ipaddress = ((UserToken)e.UserState).Destination;
-            int ipid = ((UserToken)e.UserState).ipid;
-            Debug.Assert(true, string.Format("Reply from {0}", ((UserToken)e.UserState).Destination));
-
-            if (e.Error != null)
-            {
-                result = JsonConvert.SerializeObject(reply);
-            }
-            else
-            {
-                result = JsonConvert.SerializeObject("Ping failed");
-            }
-
-            //result = JsonConvert.SerializeObject(reply);
-
-
-            //Adding the Ping Reply to the event message list
-            _eventMessageModels.Add(new EventMessageModel(reply, ipaddress, ipid));
-
-            //display the reply
-            DisplayReply(reply, ipaddress, ipid);
-            // Let the main thread resume.
-            ((AutoResetEvent)((UserToken)e.UserState).waiter).Set();
-           
-        }
+      
 
         //*********************************************************************************************/
         //** Function to print only IP addresss column in the given DataTable**/
@@ -447,23 +387,6 @@ namespace MikrotikAPIPing
 
 
 
-        public static void DisplayReply(PingReply reply, string address, int ipid)
-        {
-            if (reply == null)
-                return;
-            Console.WriteLine("===============================");
-            Console.WriteLine("{0}. Address: {1}", ipid, address);
-            Console.WriteLine("ping status: {0}", reply.Status);
-            // Console.WriteLine("Address: {0}", reply.Address.ToString());
-
-            if (reply.Status == IPStatus.Success)
-            {
-                Console.WriteLine("RoundTrip time: {0}", reply.RoundtripTime);
-                Console.WriteLine("Time to live: {0}", reply.Options.Ttl);
-                Console.WriteLine("Don't fragment: {0}", reply.Options.DontFragment);
-                Console.WriteLine("Buffer size: {0}", reply.Buffer.Length);
-            }
-        }
 
 
         //*********************************************************************************************/
@@ -508,7 +431,6 @@ namespace MikrotikAPIPing
             }
             return text;
         }
-
 
         /*========================================*/
         //This function reads data from an excel file
@@ -593,11 +515,6 @@ namespace MikrotikAPIPing
             }
             return csvData;
         }
-
-
-
-
-
 
 
 
