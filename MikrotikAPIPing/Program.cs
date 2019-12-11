@@ -50,11 +50,6 @@ namespace MikrotikAPIPing
         //private const string eventHubName = "airjaldipingapp";
         //private const string blobAccountKey = "4YyPZU5ph3pqRpYUTmPWdcXh9E4DS+YEyW7u/xeKVRWh24JIDf4CTF/vyfSAUvsC0N6VOIXF7C6eGb/dNKfVgA==";
 
-
-      
-
-
-
         string fileinblob = config["FILELOCATION_BLOB"];
 
         static void Main(string[] args)
@@ -140,9 +135,6 @@ namespace MikrotikAPIPing
             Console.WriteLine("\n Press ENTER to exit.");
             Console.ReadLine();
 
-
-
-
         }
 
 
@@ -182,8 +174,6 @@ namespace MikrotikAPIPing
                 {
                     filetype = config["_FILE_TYPE2"];
                 }
-
-               
 
                 string[] fieldOne = null;
                 string[] fieldTwo = null;
