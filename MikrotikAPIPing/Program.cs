@@ -55,13 +55,16 @@ namespace MikrotikAPIPing
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Welcome to Mikrotik Router Ping Utility!");
-            string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
-            string eventHubName = config["EventHub"];
-            string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
+            
 
             config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", true, true)
             .Build();
+
+            string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
+            string eventHubName = config["EventHub"];
+            string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
+
 
             string fileinblob = config["FILELOCATION_BLOB"];
 
