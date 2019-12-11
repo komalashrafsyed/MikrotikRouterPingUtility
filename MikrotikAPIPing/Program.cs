@@ -259,7 +259,7 @@ namespace MikrotikAPIPing
         static async Task PingMikrotikRoutersAPI(IEnumerable<string> sourceAddress, IEnumerable<string> destAddress, IEnumerable<string> username, IEnumerable<string> password, int numberOfRecords)
         {
 
-            String sleepIntMin = config["PingFrequencyInterval"];
+            String sleepIntMin = config["PausePingInterval"];
             int numvalSleepInt = 1;
 
             try
