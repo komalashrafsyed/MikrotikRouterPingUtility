@@ -258,6 +258,26 @@ namespace MikrotikAPIPing
 
         static async Task PingMikrotikRoutersAPI(IEnumerable<string> sourceAddress, IEnumerable<string> destAddress, IEnumerable<string> username, IEnumerable<string> password, int numberOfRecords)
         {
+
+            String sleepIntMin = config["PingFrequencyInterval"];
+            int numvalSleepInt = 1;
+
+            try
+            {
+                numvalSleepInt = Convert.ToInt32(sleepIntMin);
+            }
+            catch (FormatException e)
+            {
+                numvalSleepInt = 1;
+                Console.Write("\n Sleep Interval is not correct, please open appsettings.json to input a valid integer whole number value for minutes");
+            }
+
+            int sleepIntMs = numvalSleepInt;
+
+            Console.Write(" \n Sleeping for" + numvalSleepInt + "millseconds \n");
+
+
+
             var enumeratedsourceips = sourceAddress.ToList();
             var enumerateddestips = destAddress.ToList();
             var enumeratedusername = username.ToList();
@@ -310,13 +330,8 @@ namespace MikrotikAPIPing
                           exception => responseException = exception, //exception callback
                             connection.CreateParameter("address", enumerateddestips[ipid]), connection.CreateParameter("count", 1.ToString()), connection.CreateParameter("size", "64"));
 
-                   // connection.CreateParameter("address", enumerateddestips[ipid], connection.CreateParameter("count", 1.ToString()), connection.CreateParameter("size", "64"));
-
-
-
-                    //connection.CreateParameter("address", enumerateddestips[ipid]), connection.CreateParameter("count", 1.ToString()), connection.CreateParameter("size", "64"));
-                    //   connection.CreateParameter("address", enumerateddestips[ipid]));    
-                    Thread.Sleep(100);
+          
+                    Thread.Sleep(sleepIntMs);
                         ipid++;
                     }
                     catch (Exception e)
