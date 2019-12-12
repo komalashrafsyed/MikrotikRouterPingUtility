@@ -61,9 +61,9 @@ namespace MikrotikAPIPing
             .AddJsonFile("appsettings.json", true, true)
             .Build();
 
-           string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
-           string eventHubName = config["EventHub"];
-           string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
+          string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
+          string eventHubName = config["EventHub"];
+          string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
 
 
             string fileinblob = config["FILELOCATION_BLOB"];
@@ -116,7 +116,7 @@ namespace MikrotikAPIPing
                 Console.Write(" \n Iteration Number: #" + x + " \n");
 
 
-                String sleepIntMin = config["PingFrequencyInterval"];
+                String sleepIntMin = config["PingFrequencyIntervalmin"];
                 int numvalSleepInt = 1;
 
                 try
@@ -259,7 +259,7 @@ namespace MikrotikAPIPing
         static async Task PingMikrotikRoutersAPI(IEnumerable<string> sourceAddress, IEnumerable<string> destAddress, IEnumerable<string> username, IEnumerable<string> password, int numberOfRecords)
         {
 
-            String sleepIntMin = config["PausePingInterval"];
+            String sleepIntMin = config["PausePingIntervalms"];
             int numvalSleepInt = 1;
 
             try
@@ -274,7 +274,7 @@ namespace MikrotikAPIPing
 
             int sleepIntMs = numvalSleepInt;
 
-            Console.Write(" \n Sleeping for" + numvalSleepInt + "milliseconds \n");
+            Console.Write(" \n Sleeping for" + numvalSleepInt + " milliseconds \n");
 
 
 
