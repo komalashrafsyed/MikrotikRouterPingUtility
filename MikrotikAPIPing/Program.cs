@@ -46,9 +46,9 @@ namespace MikrotikAPIPing
 
         static private IConfiguration config;
 
-        //private const string eventHubConnectionString = "Endpoint=sb://airjaldipingappns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=1vr9oBgCU3vPIXiJ4QTGqXQvteBVV3njdXaphgBgFDE=";
-        //private const string eventHubName = "airjaldipingapp";
-        //private const string blobAccountKey = "4YyPZU5ph3pqRpYUTmPWdcXh9E4DS+YEyW7u/xeKVRWh24JIDf4CTF/vyfSAUvsC0N6VOIXF7C6eGb/dNKfVgA==";
+       // private const string eventHubConnectionString = "Endpoint=sb://airjaldipingappns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=1vr9oBgCU3vPIXiJ4QTGqXQvteBVV3njdXaphgBgFDE=";
+       // private const string eventHubName = "airjaldipingapp";
+       // private const string blobAccountKey = "4YyPZU5ph3pqRpYUTmPWdcXh9E4DS+YEyW7u/xeKVRWh24JIDf4CTF/vyfSAUvsC0N6VOIXF7C6eGb/dNKfVgA==";
 
         string fileinblob = config["FILELOCATION_BLOB"];
 
@@ -203,7 +203,7 @@ namespace MikrotikAPIPing
                 else if (filetype == "_CSV_FILE")
                 {
                     csvData = GetDataTabletFromCSVFile(filename);
-                    Console.WriteLine("Hello Welcome to ping utility!");
+                    //Console.WriteLine("Hello Welcome to ping utility!");
                     Console.WriteLine("Rows count:" + csvData.Rows.Count);
 
                     fieldOne = new string[csvData.Rows.Count];
@@ -258,8 +258,12 @@ namespace MikrotikAPIPing
 
         static async Task PingMikrotikRoutersAPI(IEnumerable<string> sourceAddress, IEnumerable<string> destAddress, IEnumerable<string> username, IEnumerable<string> password, int numberOfRecords)
         {
+            String apiversion = config["API_VERSION"];
 
             String sleepIntMin = config["PausePingIntervalms"];
+
+
+
             int numvalSleepInt = 1;
 
             try
@@ -274,7 +278,7 @@ namespace MikrotikAPIPing
 
             int sleepIntMs = numvalSleepInt;
 
-            Console.Write(" \n Sleeping for" + numvalSleepInt + " milliseconds \n");
+            Console.Write(" \n Sleeping for " + numvalSleepInt + " milliseconds \n");
 
 
 
@@ -290,7 +294,20 @@ namespace MikrotikAPIPing
             {
                 ITikConnection connection;
                 // using (connection = ConnectionFactory.CreateConnection(TikConnectionType.Api_v2))
-                using (connection = ConnectionFactory.CreateConnection(TikConnectionType.Api))
+
+                TikConnectionType apiVersion = TikConnectionType.Api_v2;
+
+                if (apiversion == "1")
+                {
+                   apiVersion = TikConnectionType.Api;
+                }
+                else
+                {
+                    apiVersion = TikConnectionType.Api_v2;
+                }
+
+                
+                using (connection = ConnectionFactory.CreateConnection(apiVersion))
                 {
                     // connection.Open(IPAddressMikrotikRouterB, "komal", "PSb*j9wv4V5I");
                     try
