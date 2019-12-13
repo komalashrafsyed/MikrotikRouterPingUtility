@@ -46,10 +46,7 @@ namespace MikrotikAPIPing
 
         static private IConfiguration config;
 
-       // private const string eventHubConnectionString = "Endpoint=sb://airjaldipingappns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=1vr9oBgCU3vPIXiJ4QTGqXQvteBVV3njdXaphgBgFDE=";
-       // private const string eventHubName = "airjaldipingapp";
-       // private const string blobAccountKey = "4YyPZU5ph3pqRpYUTmPWdcXh9E4DS+YEyW7u/xeKVRWh24JIDf4CTF/vyfSAUvsC0N6VOIXF7C6eGb/dNKfVgA==";
-
+       
         string fileinblob = config["FILELOCATION_BLOB"];
 
         static void Main(string[] args)
