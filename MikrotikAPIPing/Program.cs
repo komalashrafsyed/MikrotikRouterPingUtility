@@ -46,7 +46,7 @@ namespace MikrotikAPIPing
 
         static private IConfiguration config;
 
-       
+     
         string fileinblob = config["FILELOCATION_BLOB"];
 
         static void Main(string[] args)
@@ -58,9 +58,9 @@ namespace MikrotikAPIPing
             .AddJsonFile("appsettings.json", true, true)
             .Build();
 
-          string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
-          string eventHubName = config["EventHub"];
-          string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
+         string eventHubConnectionString = FetchSecretValueFromKeyVault(GetToken());
+         string eventHubName = config["EventHub"];
+         string blobAccountKey = FetchBlobKeySecretValueFromKeyVault(GetToken());
 
 
             string fileinblob = config["FILELOCATION_BLOB"];
