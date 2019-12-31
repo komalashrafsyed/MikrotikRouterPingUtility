@@ -298,10 +298,19 @@ namespace MikrotikAPIPing
                 {
                    apiVersion = TikConnectionType.Api;
                 }
-                else
+                if (apiversion == "2")
                 {
                     apiVersion = TikConnectionType.Api_v2;
                 }
+                if (apiversion == "3")
+                {
+                    apiVersion = TikConnectionType.ApiSsl;
+                }
+                if (apiversion == "4")
+                {
+                    apiVersion = TikConnectionType.ApiSsl_v2;
+                }
+                
 
                 
                 using (connection = ConnectionFactory.CreateConnection(apiVersion))
@@ -363,7 +372,7 @@ namespace MikrotikAPIPing
                     }
                 }
                 //Console.ReadLine();
-               // Thread.Sleep(3000);
+                //Thread.Sleep(3000);
                 connection.Close();
 
             }
